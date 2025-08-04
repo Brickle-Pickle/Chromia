@@ -1,0 +1,68 @@
+{
+    "title": "Crear Cuenta",
+    "subtitle": "Únete a Chromia y comienza a crear paletas increíbles",
+    "form": {
+        "username": {
+            "label": "Nombre de Usuario",
+            "placeholder": "Ingresa tu nombre de usuario",
+            "validation": {
+                "required": "El nombre de usuario es requerido",
+                "minLength": "El nombre de usuario debe tener al menos 3 caracteres",
+                "maxLength": "El nombre de usuario no puede exceder 20 caracteres"
+            }
+        },
+        "password": {
+            "label": "Contraseña",
+            "placeholder": "Crea una contraseña segura",
+            "validation": {
+                "required": "La contraseña es requerida",
+                "minLength": "La contraseña debe tener al menos 6 caracteres",
+                "pattern": "La contraseña debe contener al menos una letra y un número"
+            }
+        },
+        "confirmPassword": {
+            "label": "Confirmar Contraseña",
+            "placeholder": "Confirma tu contraseña",
+            "validation": {
+                "required": "Debes confirmar tu contraseña",
+                "match": "Las contraseñas no coinciden"
+            }
+        }
+    },
+    "buttons": {
+        "register": "Crear Cuenta",
+        "registering": "Creando cuenta...",
+        "showPassword": "Mostrar contraseña",
+        "hidePassword": "Ocultar contraseña"
+    },
+    "links": {
+        "loginText": "¿Ya tienes una cuenta?",
+        "loginLink": "Inicia sesión aquí"
+    },
+    "messages": {
+        "success": "¡Cuenta creada exitosamente! Redirigiendo...",
+        "error": "Error al crear la cuenta. Inténtalo de nuevo.",
+        "networkError": "Error de conexión. Verifica tu internet."
+    },
+    "features": {
+        "title": "¿Por qué elegir Chromia?",
+        "items": [
+            {
+                "title": "Paletas Ilimitadas",
+                "description": "Crea y guarda todas las paletas que necesites"
+            },
+            {
+                "title": "Información Detallada",
+                "description": "Obtén datos completos de cada color con un clic"
+            },
+            {
+                "title": "Diseño Intuitivo",
+                "description": "Interfaz moderna y fácil de usar"
+            },
+            {
+                "title": "Acceso Multiplataforma",
+                "description": "Disponible en desktop y móvil"
+            }
+        ]
+    }
+}

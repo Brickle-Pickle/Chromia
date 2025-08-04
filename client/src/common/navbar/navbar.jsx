@@ -219,7 +219,7 @@ const Navbar = () => {
                         ) : (
                             <Link
                                 to="/login"
-                                className="navbar-auth-btn login"
+                                className="navbar-auth-btn nav_login"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 <FiLogIn size={16} />
