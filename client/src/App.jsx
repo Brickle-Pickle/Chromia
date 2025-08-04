@@ -7,6 +7,8 @@ import Footer from './common/footer/footer.jsx'
 import Login from './common/login/login.jsx'
 import Register from './common/register/register.jsx'
 import ForgotPassword from './common/forgot_password/forgot_password.jsx'
+// Pages
+import Dashboard from './userPages/dashboard/dashboard.jsx'
 
 function App() {
     const location = useLocation();
@@ -22,8 +24,8 @@ function App() {
 
             <main>
                 <Routes>
-                    {/* <Route path="/" element={<HomePage />} />
-                    <Route path="/colors" element={<ColorsPage />} />
+                    <Route path="/" element={<Dashboard />} />
+                    {/* <Route path="/colors" element={<ColorsPage />} />
                     <Route path="/color-palletes" element={<PalettesPage />} /> */}
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

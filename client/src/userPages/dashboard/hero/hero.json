@@ -1,0 +1,29 @@
+{
+    "title": "Chromia",
+    "subtitle": "La Biblioteca de Paletas de Colores Personalizadas",
+    "description": "Descubre, crea y comparte paletas de colores únicas. Una plataforma donde los diseñadores y creativos pueden explorar combinaciones cromáticas inspiradoras y guardar sus creaciones favoritas.",
+    "features": [
+        {
+            "title": "Crea Paletas Únicas",
+            "description": "Diseña tus propias combinaciones de colores con herramientas intuitivas"
+        },
+        {
+            "title": "Explora Tendencias",
+            "description": "Descubre las paletas más populares creadas por la comunidad"
+        },
+        {
+            "title": "Información Detallada",
+            "description": "Obtén datos completos de cada color: nombres, valores CMYK y más"
+        }
+    ],
+    "cta": {
+        "login": "Iniciar Sesión",
+        "explore": "Explorar Paletas",
+        "create": "Crear Paleta"
+    },
+    "stats": {
+        "palettes": "Paletas Creadas",
+        "users": "Usuarios Activos",
+        "colors": "Colores Explorados"
+    }
+}

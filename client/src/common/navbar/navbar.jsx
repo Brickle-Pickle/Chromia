@@ -82,7 +82,7 @@ const Navbar = () => {
             tooltip: navbarTexts.tooltips.colors
         },
         {
-            path: '/color-palletes',
+            path: '/color-palettes',
             label: navbarTexts.navigation.palettes,
             icon: BiPalette,
             tooltip: navbarTexts.tooltips.palettes

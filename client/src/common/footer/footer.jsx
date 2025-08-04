@@ -172,7 +172,7 @@ const Footer = () => {
                                 <HiColorSwatch className="footer__nav-icon" />
                                 {footerData.navigation.colors}
                             </Link>
-                            <Link to="/color-palletes" className="footer__nav-link">
+                            <Link to="/color-palettes" className="footer__nav-link">
                                 <FaPalette className="footer__nav-icon" />
                                 {footerData.navigation.palettes}
                             </Link>
