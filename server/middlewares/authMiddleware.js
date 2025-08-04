@@ -36,6 +36,8 @@ export const authenticateToken = async (req, res, next) => {
         next();
 
     } catch (error) {
+        console.error('Authentication error:', error);
+        
         if (error.name === 'JsonWebTokenError') {
             return res.status(401).json({ 
                 error: 'Invalid token',

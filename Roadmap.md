@@ -11,7 +11,7 @@ Este documento describe las fases y tareas planificadas para el desarrollo de la
     *   Establecer la conexión con la base de datos MongoDB.
 *   [X] **Modelo de Datos:**
     *   Definir el esquema (Schema) para las paletas de colores (nombre, colores, autor).
-*   [ ] **API RESTful (CRUD):**
+*   [X] **API RESTful (CRUD):**
     *   Implementar los endpoints para **C**rear, **L**eer, **A**ctualizar y **E**liminar (CRUD) paletas de colores.
     *   Probar los endpoints con una herramienta como Postman o Insomnia.
 
