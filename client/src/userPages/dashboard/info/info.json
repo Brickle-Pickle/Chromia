@@ -1,0 +1,162 @@
+{
+    "title": "Acerca del Proyecto",
+    "subtitle": "Conoce la historia detrás de Chromia",
+    "sections": {
+        "inspiration": {
+            "title": "Inspiración",
+            "content": "La idea de Chromia nació de la necesidad de tener una herramienta personalizada para gestionar paletas de colores. Inspirado por plataformas como Adobe Color, quise crear algo único que combinara funcionalidad con una experiencia de usuario excepcional.",
+            "icon": "lightbulb"
+        },
+        "developer": {
+            "title": "Desarrollador",
+            "name": "Brickle Pickle",
+            "realName": "Antonio G.",
+            "location": "Madrid, España",
+            "description": "Full-Stack Developer & Game Developer con 5 años de experiencia en proyectos personales y 4 meses de experiencia profesional. Especializado en React, Node.js y C#, con una pasión especial por crear experiencias web y videojuegos únicas.",
+            "experience": {
+                "years": "5 años",
+                "projects": "15+",
+                "technologies": "20+"
+            },
+            "specialties": [
+                "React & Node.js",
+                "Game Development",
+                "IoT & Hardware"
+            ],
+            "philosophy": "Siempre aprendiendo nuevas tecnologías y creando experiencias que marquen la diferencia",
+            "icon": "user"
+        },
+        "technologies": {
+            "title": "Tecnologías Utilizadas",
+            "frontend": [
+                {
+                    "name": "React",
+                    "description": "Biblioteca para interfaces de usuario"
+                },
+                {
+                    "name": "Vite",
+                    "description": "Herramienta de construcción rápida"
+                }
+            ],
+            "backend": [
+                {
+                    "name": "Node.js",
+                    "description": "Entorno de ejecución JavaScript"
+                },
+                {
+                    "name": "Express",
+                    "description": "Framework web minimalista"
+                },
+                {
+                    "name": "MongoDB",
+                    "description": "Base de datos NoSQL"
+                }
+            ],
+            "icon": "code"
+        },
+        "development": {
+            "title": "Desarrollo",
+            "duration": "2 semanas",
+            "description": "Un proyecto intensivo que combinó planificación, diseño y desarrollo full-stack.",
+            "icon": "calendar"
+        },
+        "future": {
+            "title": "Visión Futura",
+            "features": [
+                "Foro de la comunidad para compartir ideas",
+                "Herramienta de coloreo interactiva",
+                "Mecánicas avanzadas con paletas",
+                "Integración con más APIs de color"
+            ],
+            "description": "Chromia está diseñado para crecer y evolucionar con su comunidad.",
+            "icon": "rocket"
+        }
+    },
+    "timeline": {
+        "title": "Roadmap de Desarrollo",
+        "phases": [
+            {
+                "phase": "Fase 1",
+                "title": "Fundación Backend",
+                "description": "Configuración de Node.js, Express y MongoDB",
+                "status": "completed",
+                "tasks": [
+                    "Inicialización del proyecto",
+                    "Modelo de datos",
+                    "API RESTful (CRUD)"
+                ]
+            },
+            {
+                "phase": "Fase 2",
+                "title": "Frontend Base",
+                "description": "Estructura React con Vite",
+                "status": "completed",
+                "tasks": [
+                    "Configuración de Vite + React",
+                    "Estructura de carpetas",
+                    "Componentes básicos"
+                ]
+            },
+            {
+                "phase": "Fase 3",
+                "title": "Funcionalidad Principal",
+                "description": "Gestión completa de paletas",
+                "status": "in-progress",
+                "tasks": [
+                    "Creación de paletas",
+                    "Vista de detalle",
+                    "Integración con The Color API"
+                ]
+            },
+            {
+                "phase": "Fase 4",
+                "title": "Autenticación",
+                "description": "Sistema de usuarios completo",
+                "status": "pending",
+                "tasks": [
+                    "Backend de autenticación",
+                    "Frontend de autenticación",
+                    "Asociación de paletas"
+                ]
+            },
+            {
+                "phase": "Fase 5",
+                "title": "Funcionalidades Avanzadas",
+                "description": "Perfil de usuario y gestión",
+                "status": "pending",
+                "tasks": [
+                    "Perfil de usuario",
+                    "Gestión de paletas propias",
+                    "Paletas populares"
+                ]
+            },
+            {
+                "phase": "Fase 6",
+                "title": "Refinamiento",
+                "description": "Diseño y experiencia de usuario",
+                "status": "pending",
+                "tasks": [
+                    "Diseño minimalista",
+                    "Diseño responsivo",
+                    "Mejoras de UX"
+                ]
+            },
+            {
+                "phase": "Fase 7",
+                "title": "Despliegue",
+                "description": "Puesta en producción",
+                "status": "pending",
+                "tasks": [
+                    "Preparación para producción",
+                    "Despliegue del backend",
+                    "Despliegue del frontend"
+                ]
+            }
+        ]
+    },
+    "cta": {
+        "title": "¿Listo para crear?",
+        "description": "Explora todas las funcionalidades de Chromia",
+        "button": "Comenzar Ahora"
+    }
+}
