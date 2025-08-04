@@ -1,0 +1,31 @@
+{
+    "title": "Bienvenido a Chromia",
+    "subtitle": "Inicia sesión para acceder a tu biblioteca de paletas",
+    "username": {
+        "label": "Nombre de usuario",
+        "placeholder": "Ingresa tu nombre de usuario"
+    },
+    "password": {
+        "label": "Contraseña",
+        "placeholder": "Ingresa tu contraseña"
+    },
+    "loginButton": "Iniciar Sesión",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿Aún no tienes cuenta?",
+    "createAccount": "Crear cuenta",
+    "loading": "Iniciando sesión...",
+    "errors": {
+        "required": "Este campo es obligatorio",
+        "invalidCredentials": "Usuario o contraseña incorrectos",
+        "serverError": "Error del servidor. Inténtalo de nuevo.",
+        "networkError": "Error de conexión. Verifica tu internet."
+    },
+    "success": {
+        "login": "¡Bienvenido de vuelta!"
+    },
+    "accessibility": {
+        "showPassword": "Mostrar contraseña",
+        "hidePassword": "Ocultar contraseña",
+        "loginForm": "Formulario de inicio de sesión"
+    }
+}

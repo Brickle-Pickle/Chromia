@@ -157,7 +157,7 @@ const Navbar = () => {
                     ) : (
                         <Link
                             to="/login"
-                            className="navbar-auth-btn login"
+                            className="navbar-auth-btn nav_login"
                             title={navbarTexts.tooltips.login}
                             aria-label={navbarTexts.tooltips.login}
                         >

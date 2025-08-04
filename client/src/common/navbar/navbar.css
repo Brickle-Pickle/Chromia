@@ -199,13 +199,13 @@
     gap: var(--space-xs);
 }
 
-.navbar-auth-btn.login {
+.navbar-auth-btn.nav_login {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
     color: white;
     box-shadow: var(--shadow-sm);
 }
 
-.navbar-auth-btn.login::before {
+.navbar-auth-btn.nav_login::before {
     content: '';
     position: absolute;
     top: 0;
@@ -216,11 +216,11 @@
     transition: left var(--transition-normal);
 }
 
-.navbar-auth-btn.login:hover::before {
+.navbar-auth-btn.nav_login:hover::before {
     left: 100%;
 }
 
-.navbar-auth-btn.login:hover {
+.navbar-auth-btn.nav_login:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from 'react';
 
 // Initial state for the application
 const initialState = {
@@ -116,86 +116,106 @@ export const useAppContext = () => {
     return context;
 };
 
-// Helper function to make API calls with credentials
-const apiCall = async (endpoint, options = {}) => {
-    const token = localStorage.getItem('chromia_token');
-    
-    const defaultOptions = {
-        headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        credentials: 'include', // Always send credentials
-        ...options,
-    };
-
-    // Merge headers properly
-    if (options.headers) {
-        defaultOptions.headers = {
-            ...defaultOptions.headers,
-            ...options.headers,
+// Helper function to make API calls with credentials - moved outside component to prevent recreation
+const createApiCall = () => {
+    return async (endpoint, options = {}) => {
+        const token = localStorage.getItem('chromia_token');
+        
+        const defaultOptions = {
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token && { Authorization: `Bearer ${token}` }),
+            },
+            credentials: 'include', // Always send credentials
+            ...options,
         };
-    }
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, defaultOptions);
-    
-    // Handle unauthorized responses
-    if (response.status === 401) {
-        localStorage.removeItem('chromia_token');
-        localStorage.removeItem('chromia_user');
-        window.location.href = '/login';
-        throw new Error('Unauthorized');
-    }
+        // Merge headers properly
+        if (options.headers) {
+            defaultOptions.headers = {
+                ...defaultOptions.headers,
+                ...options.headers,
+            };
+        }
 
-    const data = await response.json();
-    
-    if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
-    }
-    
-    return data;
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, defaultOptions);
+        
+        // Handle unauthorized responses
+        if (response.status === 401) {
+            localStorage.removeItem('chromia_token');
+            localStorage.removeItem('chromia_user');
+            window.location.href = '/login';
+            throw new Error('Unauthorized');
+        }
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Something went wrong');
+        }
+        
+        return data;
+    };
 };
 
 // App Provider component
 export const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(appReducer, initialState);
 
+    // Create stable API call function
+    const apiCall = useMemo(() => createApiCall(), []);
+
     // Initialize app - check for existing token
     useEffect(() => {
+        let isMounted = true; // Prevent state updates if component unmounts
+
         const initializeApp = async () => {
             const token = localStorage.getItem('chromia_token');
             const userData = localStorage.getItem('chromia_user');
             
             if (token && userData) {
                 try {
-                    dispatch({ type: actionTypes.SET_LOADING, payload: true });
+                    if (isMounted) {
+                        dispatch({ type: actionTypes.SET_LOADING, payload: true });
+                    }
                     
                     // Verify token is still valid by getting current user
                     const currentUser = await apiCall('/users/current');
                     
-                    dispatch({
-                        type: actionTypes.LOGIN_SUCCESS,
-                        payload: {
-                            token,
-                            user: currentUser,
-                        },
-                    });
+                    if (isMounted) {
+                        dispatch({
+                            type: actionTypes.LOGIN_SUCCESS,
+                            payload: {
+                                token,
+                                user: currentUser,
+                            },
+                        });
+                    }
                 } catch (error) {
                     // Token is invalid, clear storage
                     localStorage.removeItem('chromia_token');
                     localStorage.removeItem('chromia_user');
-                    dispatch({ type: actionTypes.SET_ERROR, payload: 'Session expired' });
+                    if (isMounted) {
+                        dispatch({ type: actionTypes.SET_ERROR, payload: 'Session expired' });
+                    }
                 } finally {
-                    dispatch({ type: actionTypes.SET_LOADING, payload: false });
+                    if (isMounted) {
+                        dispatch({ type: actionTypes.SET_LOADING, payload: false });
+                    }
                 }
             }
         };
 
         initializeApp();
-    }, []);
 
-    // Authentication functions
-    const login = async (username, password) => {
+        // Cleanup function
+        return () => {
+            isMounted = false;
+        };
+    }, [apiCall]);
+
+    // Authentication functions - memoized to prevent recreation
+    const login = useCallback(async (username, password) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             dispatch({ type: actionTypes.CLEAR_ERROR });
@@ -224,9 +244,9 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall]);
 
-    const register = async (username, password) => {
+    const register = useCallback(async (username, password) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             dispatch({ type: actionTypes.CLEAR_ERROR });
@@ -244,16 +264,16 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall, login]);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         localStorage.removeItem('chromia_token');
         localStorage.removeItem('chromia_user');
         dispatch({ type: actionTypes.LOGOUT });
-    };
+    }, []);
 
-    // Palette management functions
-    const fetchPalettes = async () => {
+    // Palette management functions - memoized
+    const fetchPalettes = useCallback(async () => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             const palettes = await apiCall('/palettes');
@@ -265,9 +285,9 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall]);
 
-    const createPalette = async (paletteData) => {
+    const createPalette = useCallback(async (paletteData) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             const newPalette = await apiCall('/palettes', {
@@ -282,9 +302,9 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall]);
 
-    const updatePalette = async (paletteId, paletteData) => {
+    const updatePalette = useCallback(async (paletteId, paletteData) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             const updatedPalette = await apiCall(`/palettes/${paletteId}`, {
@@ -299,9 +319,9 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall]);
 
-    const deletePalette = async (paletteId) => {
+    const deletePalette = useCallback(async (paletteId) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             await apiCall(`/palettes/${paletteId}`, {
@@ -315,9 +335,9 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall]);
 
-    const getPaletteById = async (paletteId) => {
+    const getPaletteById = useCallback(async (paletteId) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
             const palette = await apiCall(`/palettes/${paletteId}`);
@@ -329,10 +349,10 @@ export const AppProvider = ({ children }) => {
         } finally {
             dispatch({ type: actionTypes.SET_LOADING, payload: false });
         }
-    };
+    }, [apiCall]);
 
-    // Color API integration function
-    const getColorInfo = async (hexColor) => {
+    // Color API integration function - memoized
+    const getColorInfo = useCallback(async (hexColor) => {
         try {
             // Remove # from hex color if present
             const cleanHex = hexColor.replace('#', '');
@@ -347,19 +367,19 @@ export const AppProvider = ({ children }) => {
             console.error('Error fetching color info:', error);
             throw error;
         }
-    };
+    }, []);
 
-    // Utility functions
-    const clearError = () => {
+    // Utility functions - memoized
+    const clearError = useCallback(() => {
         dispatch({ type: actionTypes.CLEAR_ERROR });
-    };
+    }, []);
 
-    const setCurrentPalette = (palette) => {
+    const setCurrentPalette = useCallback((palette) => {
         dispatch({ type: actionTypes.SET_CURRENT_PALETTE, payload: palette });
-    };
+    }, []);
 
-    // Context value
-    const contextValue = {
+    // Context value - memoized to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
         // State
         ...state,
         
@@ -384,7 +404,21 @@ export const AppProvider = ({ children }) => {
         
         // Direct API call function for custom requests
         apiCall,
-    };
+    }), [
+        state,
+        login,
+        register,
+        logout,
+        fetchPalettes,
+        createPalette,
+        updatePalette,
+        deletePalette,
+        getPaletteById,
+        setCurrentPalette,
+        getColorInfo,
+        clearError,
+        apiCall
+    ]);
 
     return (
         <AppContext.Provider value={contextValue}>
