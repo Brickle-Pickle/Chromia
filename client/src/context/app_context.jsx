@@ -9,6 +9,12 @@ const initialState = {
     error: null,
     palettes: [],
     currentPalette: null,
+    // Add forgot password related state
+    forgotPasswordState: {
+        emailSent: false,
+        isProcessing: false,
+        error: null,
+    },
 };
 
 // Action types
@@ -23,6 +29,12 @@ const actionTypes = {
     UPDATE_PALETTE: 'UPDATE_PALETTE',
     DELETE_PALETTE: 'DELETE_PALETTE',
     SET_CURRENT_PALETTE: 'SET_CURRENT_PALETTE',
+    // Add forgot password action types
+    SET_FORGOT_PASSWORD_LOADING: 'SET_FORGOT_PASSWORD_LOADING',
+    SET_FORGOT_PASSWORD_ERROR: 'SET_FORGOT_PASSWORD_ERROR',
+    CLEAR_FORGOT_PASSWORD_ERROR: 'CLEAR_FORGOT_PASSWORD_ERROR',
+    SET_FORGOT_PASSWORD_EMAIL_SENT: 'SET_FORGOT_PASSWORD_EMAIL_SENT',
+    RESET_FORGOT_PASSWORD_STATE: 'RESET_FORGOT_PASSWORD_STATE',
 };
 
 // Reducer function to manage state changes
@@ -95,6 +107,50 @@ const appReducer = (state, action) => {
             return {
                 ...state,
                 currentPalette: action.payload,
+            };
+        // Add forgot password reducer cases
+        case actionTypes.SET_FORGOT_PASSWORD_LOADING:
+            return {
+                ...state,
+                forgotPasswordState: {
+                    ...state.forgotPasswordState,
+                    isProcessing: action.payload,
+                },
+            };
+        case actionTypes.SET_FORGOT_PASSWORD_ERROR:
+            return {
+                ...state,
+                forgotPasswordState: {
+                    ...state.forgotPasswordState,
+                    error: action.payload,
+                    isProcessing: false,
+                },
+            };
+        case actionTypes.CLEAR_FORGOT_PASSWORD_ERROR:
+            return {
+                ...state,
+                forgotPasswordState: {
+                    ...state.forgotPasswordState,
+                    error: null,
+                },
+            };
+        case actionTypes.SET_FORGOT_PASSWORD_EMAIL_SENT:
+            return {
+                ...state,
+                forgotPasswordState: {
+                    ...state.forgotPasswordState,
+                    emailSent: action.payload,
+                    isProcessing: false,
+                },
+            };
+        case actionTypes.RESET_FORGOT_PASSWORD_STATE:
+            return {
+                ...state,
+                forgotPasswordState: {
+                    emailSent: false,
+                    isProcessing: false,
+                    error: null,
+                },
             };
         default:
             return state;
@@ -272,6 +328,97 @@ export const AppProvider = ({ children }) => {
         dispatch({ type: actionTypes.LOGOUT });
     }, []);
 
+    // Forgot password functions - memoized
+    const requestPasswordReset = useCallback(async (email) => {
+        try {
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_LOADING, payload: true });
+            dispatch({ type: actionTypes.CLEAR_FORGOT_PASSWORD_ERROR });
+
+            // Since the backend doesn't have this functionality yet, simulate the request
+            // In the future, this would call: await apiCall('/users/forgot-password', { method: 'POST', body: JSON.stringify({ email }) });
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // For now, always return success since it's not implemented
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_EMAIL_SENT, payload: true });
+            
+            return { 
+                success: true, 
+                message: 'Password reset instructions have been sent to your email.' 
+            };
+        } catch (error) {
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_ERROR, payload: error.message });
+            return { success: false, error: error.message };
+        } finally {
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_LOADING, payload: false });
+        }
+    }, []);
+
+    const resetPassword = useCallback(async (token, newPassword) => {
+        try {
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_LOADING, payload: true });
+            dispatch({ type: actionTypes.CLEAR_FORGOT_PASSWORD_ERROR });
+
+            // Since the backend doesn't have this functionality yet, simulate the request
+            // In the future, this would call: await apiCall('/users/reset-password', { method: 'POST', body: JSON.stringify({ token, password: newPassword }) });
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // For now, always return success since it's not implemented
+            return { 
+                success: true, 
+                message: 'Password has been reset successfully.' 
+            };
+        } catch (error) {
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_ERROR, payload: error.message });
+            return { success: false, error: error.message };
+        } finally {
+            dispatch({ type: actionTypes.SET_FORGOT_PASSWORD_LOADING, payload: false });
+        }
+    }, []);
+
+    const clearForgotPasswordError = useCallback(() => {
+        dispatch({ type: actionTypes.CLEAR_FORGOT_PASSWORD_ERROR });
+    }, []);
+
+    const resetForgotPasswordState = useCallback(() => {
+        dispatch({ type: actionTypes.RESET_FORGOT_PASSWORD_STATE });
+    }, []);
+
+    // Utility function to copy text to clipboard - memoized
+    const copyToClipboard = useCallback(async (text) => {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return { success: true };
+            } else {
+                // Fallback for older browsers or non-secure contexts
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    return { success: true };
+                } else {
+                    throw new Error('Failed to copy text');
+                }
+            }
+        } catch (error) {
+            console.error('Error copying to clipboard:', error);
+            return { success: false, error: error.message };
+        }
+    }, []);
+
     // Palette management functions - memoized
     const fetchPalettes = useCallback(async () => {
         try {
@@ -388,6 +535,12 @@ export const AppProvider = ({ children }) => {
         register,
         logout,
         
+        // Forgot password functions
+        requestPasswordReset,
+        resetPassword,
+        clearForgotPasswordError,
+        resetForgotPasswordState,
+        
         // Palette management functions
         fetchPalettes,
         createPalette,
@@ -401,6 +554,7 @@ export const AppProvider = ({ children }) => {
         
         // Utility functions
         clearError,
+        copyToClipboard,
         
         // Direct API call function for custom requests
         apiCall,
@@ -409,6 +563,10 @@ export const AppProvider = ({ children }) => {
         login,
         register,
         logout,
+        requestPasswordReset,
+        resetPassword,
+        clearForgotPasswordError,
+        resetForgotPasswordState,
         fetchPalettes,
         createPalette,
         updatePalette,
@@ -417,6 +575,7 @@ export const AppProvider = ({ children }) => {
         setCurrentPalette,
         getColorInfo,
         clearError,
+        copyToClipboard,
         apiCall
     ]);
 

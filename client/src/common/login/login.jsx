@@ -23,7 +23,7 @@ const Login = () => {
     // Redirect if already authenticated
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/dashboard');
+            navigate('/');
         }
     }, [isAuthenticated, navigate]);
     
@@ -86,7 +86,7 @@ const Login = () => {
             if (result.success) {
                 setShowSuccess(true);
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    navigate('/');
                 }, 1500);
             }
         } catch (err) {

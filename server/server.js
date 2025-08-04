@@ -18,8 +18,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 const dbUrl = process.env.MONGODB_URI || process.env.DB_URL;
 
+// CORS configuration - specific origin when using credentials
+const corsOptions = {
+    origin: 'http://localhost:5173', // Your client URL
+    credentials: true, // Allow credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 // Middleware configuration
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
