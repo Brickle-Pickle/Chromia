@@ -1,0 +1,26 @@
+{
+    "navigation": {
+        "colors": "Colores",
+        "palettes": "Paletas"
+    },
+    "links": {
+        "termsAndConditions": "Términos y Condiciones",
+        "privacyPolicy": "Política de Privacidad",
+        "github": "GitHub",
+        "portfolio": "Portfolio"
+    },
+    "company": {
+        "name": "Chromia",
+        "description": "La Biblioteca de Paletas de Colores Personalizadas",
+        "tagline": "Crea, guarda y comparte tus paletas de colores favoritas"
+    },
+    "copyright": {
+        "text": "© 2025 Chromia. Todos los derechos reservados.",
+        "madeBy": "Hecho con",
+        "by": "por BricklePickle"
+    },
+    "social": {
+        "followUs": "Síguenos",
+        "connectWith": "Conecta con nosotros"
+    }
+}

@@ -19,7 +19,7 @@ Este documento describe las fases y tareas planificadas para el desarrollo de la
 
 ### Fase 2: Estructura y Visualización del Frontend (React)
 
-*   [ ] **Inicialización del Proyecto:**
+*   [X] **Inicialización del Proyecto:**
     *   Configurar un nuevo proyecto con Vite y React.
     *   Organizar la estructura de carpetas (componentes, páginas, servicios, etc.).
 *   [ ] **Diseño Básico y Componentes:**
