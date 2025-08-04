@@ -16,3 +16,7 @@
 
 # Archivos de transpilación
 *.js.map
+
+# Development
+Description.md
+Roadmap.md

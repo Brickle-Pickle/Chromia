@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const ColorSchema = new mongoose.Schema({
+const ColorPalleteSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
     },
-    color: {
-        type: String,
+    colors: {
+        type: [ColorSchema],
         required: true,
     },
     author: {
@@ -17,9 +17,9 @@ const ColorSchema = new mongoose.Schema({
 });
 
 // Populate author field
-ColorSchema.post('save', function (doc, next) {
+ColorPalleteSchema.post('save', function (doc, next) {
     doc.author = doc.author.toJSON();
     next();
 });
 
-export default mongoose.model('Color', ColorSchema);
+export default mongoose.model('ColorPallete', ColorPalleteSchema);
