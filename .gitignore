@@ -1,0 +1,18 @@
+# Archivos de configuración
+.env
+.env.test
+.env.prod
+
+# Archivos de logs
+*.log
+
+# Archivos de base de datos
+*.db
+*.sqlite
+
+# Archivos de prueba
+*.spec.js
+*.test.js
+
+# Archivos de transpilación
+*.js.map
