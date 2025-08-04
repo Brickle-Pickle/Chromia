@@ -1,0 +1,27 @@
+{
+    "brand": {
+        "name": "Chromia",
+        "alt": "Chromia Logo"
+    },
+    "navigation": {
+        "colors": "Colores",
+        "palettes": "Paletas"
+    },
+    "auth": {
+        "login": "Iniciar Sesión",
+        "logout": "Cerrar Sesión",
+        "profile": "Mi Perfil"
+    },
+    "tooltips": {
+        "home": "Ir al inicio",
+        "colors": "Explorar colores",
+        "palettes": "Ver paletas de colores",
+        "login": "Acceder a tu cuenta",
+        "logout": "Cerrar tu sesión",
+        "profile": "Ver tu perfil"
+    },
+    "mobile": {
+        "menu": "Menú",
+        "close": "Cerrar"
+    }
+}
