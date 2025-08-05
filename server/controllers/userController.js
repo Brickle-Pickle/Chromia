@@ -1,11 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import express from "express";
 import { authenticateToken } from "../middlewares/authMiddleware.js";
-
-dotenv.config();
 
 const register = async (req, res) => {
     try {

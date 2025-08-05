@@ -27,7 +27,9 @@ const PaletteCreate = () => {
         copyToClipboard,
         isLoading,
         error,
-        clearError
+        clearError,
+        isAuthenticated,
+        user
     } = useAppContext();
 
     // Form state
@@ -211,6 +213,13 @@ const PaletteCreate = () => {
 
     // Create palette
     const handleCreatePalette = useCallback(async () => {
+        // Check if user is authenticated
+        if (!isAuthenticated || !user) {
+            setValidationErrors({ createPalette: 'Debes estar autenticado para crear una paleta' });
+            navigate('/login');
+            return;
+        }
+
         const nameErrors = validatePaletteName(paletteName);
         let errors = { ...nameErrors };
 
@@ -233,7 +242,7 @@ const PaletteCreate = () => {
                 // Show success message
                 setValidationErrors({ success: texts.messages.success.paletteCreated });
                 setTimeout(() => {
-                    navigate('/color-palettes');
+                    window.location.reload();
                 }, 1500);
             } else {
                 setValidationErrors({ createPalette: result.error });
@@ -241,7 +250,7 @@ const PaletteCreate = () => {
         } catch (error) {
             setValidationErrors({ createPalette: error.message });
         }
-    }, [paletteName, paletteColors, validatePaletteName, createPalette, navigate]);
+    }, [paletteName, paletteColors, validatePaletteName, createPalette, navigate, isAuthenticated, user]);
 
     // Copy color to clipboard
     const handleCopyColor = useCallback(async (color) => {

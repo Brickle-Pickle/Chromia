@@ -943,6 +943,7 @@
     gap: var(--space-sm);
     animation: slideInDown 0.5s ease-out;
     box-shadow: var(--shadow-md);
+    margin: var(--space-md) 0;
 }
 
 /* Animations */

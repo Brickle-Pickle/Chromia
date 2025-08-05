@@ -253,17 +253,23 @@ export const useAppContext = () => {
     return context;
 };
 
-// Helper function to make API calls with credentials - moved outside component to prevent recreation
-const createApiCall = () => {
-    return async (endpoint, options = {}) => {
-        const token = localStorage.getItem('chromia_token');
+
+
+// App Provider component
+export const AppProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(appReducer, initialState);
+
+    // Create stable API call function that has access to current token
+    const apiCall = useCallback(async (endpoint, options = {}) => {
+        // Get token from state first, then fallback to localStorage
+        const token = state.token || localStorage.getItem('chromia_token');
         
         const defaultOptions = {
             headers: {
                 'Content-Type': 'application/json',
                 ...(token && { Authorization: `Bearer ${token}` }),
             },
-            credentials: 'include', // Always send credentials
+            credentials: 'include',
             ...options,
         };
 
@@ -278,19 +284,25 @@ const createApiCall = () => {
         try {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, defaultOptions);
             
-            // Handle unauthorized responses more carefully
+            // Handle unauthorized responses
             if (response.status === 401) {
-                const errorData = await response.json().catch(() => ({ message: 'Unauthorized' }));
+                const errorData = await response.json().catch(() => ({ 
+                    error: 'No token provided in Authorization header' 
+                }));
                 
-                // Only clear session if it's actually an authentication error
-                // and not a temporary server issue
-                if (errorData.error === 'Token expired' || errorData.error === 'Invalid token') {
+                // Clear session for authentication errors
+                if (errorData.error === 'Token expired' || 
+                    errorData.error === 'Invalid token' || 
+                    errorData.message === 'Token is malformed' ||
+                    errorData.error === 'No token provided in Authorization header' ||
+                    errorData.error === 'Access token required') {
                     localStorage.removeItem('chromia_token');
                     localStorage.removeItem('chromia_user');
+                    dispatch({ type: actionTypes.LOGOUT });
                     window.location.href = '/login';
                 }
                 
-                throw new Error(errorData.message || 'Unauthorized');
+                throw new Error(errorData.error || errorData.message || 'Unauthorized');
             }
 
             const data = await response.json();
@@ -301,25 +313,14 @@ const createApiCall = () => {
             
             return data;
         } catch (error) {
-            // Don't redirect to login for network errors or other non-auth issues
-            if (error.message !== 'Unauthorized') {
-                console.error('API call error:', error);
-            }
+            console.error('API call error:', error);
             throw error;
         }
-    };
-};
-
-// App Provider component
-export const AppProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(appReducer, initialState);
-
-    // Create stable API call function
-    const apiCall = useMemo(() => createApiCall(), []);
+    }, [state.token]); // Now depends on state.token directly
 
     // Initialize app - check for existing token
     useEffect(() => {
-        let isMounted = true; // Prevent state updates if component unmounts
+        let isMounted = true;
 
         const initializeApp = async () => {
             const token = localStorage.getItem('chromia_token');
@@ -327,14 +328,22 @@ export const AppProvider = ({ children }) => {
             
             if (token && userData) {
                 try {
+                    // Set token in state first
+                    const parsedUser = JSON.parse(userData);
                     if (isMounted) {
-                        dispatch({ type: actionTypes.SET_LOADING, payload: true });
+                        dispatch({
+                            type: actionTypes.LOGIN_SUCCESS,
+                            payload: {
+                                token,
+                                user: parsedUser,
+                            },
+                        });
                     }
                     
-                    // Verify token is still valid by getting current user
+                    // Then verify token is still valid
                     const currentUser = await apiCall('/users/current');
                     
-                    if (isMounted) {
+                    if (isMounted && currentUser) {
                         dispatch({
                             type: actionTypes.LOGIN_SUCCESS,
                             payload: {
@@ -344,15 +353,12 @@ export const AppProvider = ({ children }) => {
                         });
                     }
                 } catch (error) {
+                    console.error('Token verification failed:', error);
                     // Token is invalid, clear storage
                     localStorage.removeItem('chromia_token');
                     localStorage.removeItem('chromia_user');
                     if (isMounted) {
-                        dispatch({ type: actionTypes.SET_ERROR, payload: 'Session expired' });
-                    }
-                } finally {
-                    if (isMounted) {
-                        dispatch({ type: actionTypes.SET_LOADING, payload: false });
+                        dispatch({ type: actionTypes.LOGOUT });
                     }
                 }
             }
@@ -360,11 +366,10 @@ export const AppProvider = ({ children }) => {
 
         initializeApp();
 
-        // Cleanup function
         return () => {
             isMounted = false;
         };
-    }, [apiCall]);
+    }, []); // Remove apiCall dependency to prevent infinite loop
 
     // Authentication functions - memoized to prevent recreation
     const login = useCallback(async (username, password) => {
