@@ -245,6 +245,11 @@ const AppContext = createContext();
 const getApiBaseUrl = () => {
     // Check if we're in development and get the current host
     const currentHost = window.location.hostname;
+
+    // Production environment (Vercel)
+    if (currentHost.includes('vercel.app')) {
+        return 'chromia-production.up.railway.app'; // Actualizar con URL real
+    }
     
     // If accessing via localhost, use localhost for API
     if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
