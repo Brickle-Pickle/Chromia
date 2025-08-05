@@ -1,0 +1,30 @@
+{
+    "title": "404",
+    "subtitle": "Página no encontrada",
+    "description": "Lo sentimos, la página que buscas no existe o ha sido movida.",
+    "homeButton": "Volver al inicio",
+    "exploreButton": "Explorar paletas",
+    "colorGeneratorTitle": "Generador de colores aleatorios",
+    "generateColorButton": "Generar color",
+    "copyColorButton": "Copiar",
+    "colorCopied": "Color copiado!",
+    "colorInfo": {
+        "hex": "HEX",
+        "rgb": "RGB",
+        "hsl": "HSL"
+    },
+    "animations": {
+        "floatingColors": [
+            "#6366f1",
+            "#818cf8", 
+            "#4f46e5",
+            "#10b981",
+            "#f59e0b",
+            "#ef4444",
+            "#3b82f6",
+            "#8b5cf6",
+            "#06b6d4",
+            "#84cc16"
+        ]
+    }
+}

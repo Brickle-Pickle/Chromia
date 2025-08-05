@@ -6,6 +6,7 @@ import Footer from './common/footer/footer.jsx'
 import Login from './common/login/login.jsx'
 import Register from './common/register/register.jsx'
 import ForgotPassword from './common/forgot_password/forgot_password.jsx'
+import Error404 from './common/error/error.jsx'
 // Pages
 import Dashboard from './userPages/dashboard/dashboard.jsx'
 import Colors from './userPages/colors/colors.jsx'
@@ -31,6 +32,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="*" element={<Error404 />} />
                 </Routes>
             </main>
 
