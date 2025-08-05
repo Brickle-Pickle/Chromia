@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "build": "npm install",
+    "build": "npm install --production=false",
+    "install": "npm install --production=false",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["color", "palette", "api", "express"],
@@ -21,5 +22,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.17.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
