@@ -1,0 +1,48 @@
+{
+    "title": "Descubre el Mundo de los Colores",
+    "subtitle": "Crea, guarda y comparte paletas de colores únicas",
+    "description": "Únete a nuestra comunidad de creativos y accede a herramientas profesionales para gestionar tus paletas de colores favoritas.",
+    "features": [
+        {
+            "title": "Crea Paletas Únicas",
+            "description": "Diseña paletas personalizadas con nuestro editor intuitivo",
+            "icon": "palette"
+        },
+        {
+            "title": "Guarda tus Favoritas",
+            "description": "Mantén organizadas todas tus creaciones en tu perfil personal",
+            "icon": "save"
+        },
+        {
+            "title": "Comparte con la Comunidad",
+            "description": "Inspira a otros y descubre paletas increíbles de la comunidad",
+            "icon": "share"
+        }
+    ],
+    "colorDemo": {
+        "title": "Explora Colores Interactivos",
+        "subtitle": "Haz clic en los colores para ver su información detallada",
+        "colors": [
+            "#FF6B6B",
+            "#4ECDC4", 
+            "#45B7D1",
+            "#96CEB4",
+            "#FFEAA7",
+            "#DDA0DD",
+            "#98D8C8",
+            "#F7DC6F"
+        ]
+    },
+    "cta": {
+        "primary": "Iniciar Sesión",
+        "secondary": "Crear Cuenta",
+        "loginText": "¿Ya tienes cuenta?",
+        "registerText": "¿Nuevo en Chromia?"
+    },
+    "benefits": [
+        "Acceso completo a todas las herramientas",
+        "Guarda paletas ilimitadas",
+        "Comparte con la comunidad",
+        "Sincronización en todos tus dispositivos"
+    ]
+}
