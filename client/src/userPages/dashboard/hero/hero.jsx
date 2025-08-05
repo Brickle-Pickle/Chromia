@@ -115,13 +115,13 @@ const Hero = () => {
                                     <FiArrowRight />
                                 </Link>
                             ) : (
-                                <Link to="/palettes" className="cta-primary">
+                                <Link to="/color-palettes" className="cta-primary">
                                     {heroData.cta.create}
                                     <BiPalette />
                                 </Link>
                             )}
                             
-                            <Link to="/color-palettes" className="cta-secondary">
+                            <Link to="/colors" className="cta-secondary">
                                 {heroData.cta.explore}
                                 <FiEye />
                             </Link>

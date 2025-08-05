@@ -241,8 +241,21 @@ const appReducer = (state, action) => {
 // Create context
 const AppContext = createContext();
 
-// API base URL - adjust according to your backend configuration
-const API_BASE_URL = 'http://localhost:3000/api';
+// API base URL - automatically detect the correct URL based on environment
+const getApiBaseUrl = () => {
+    // Check if we're in development and get the current host
+    const currentHost = window.location.hostname;
+    
+    // If accessing via localhost, use localhost for API
+    if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
+        return 'http://localhost:3000/api';
+    }
+    
+    // If accessing via network IP, use the same IP for API
+    return `http://${currentHost}:3000/api`;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 // Custom hook to use the app context
 export const useAppContext = () => {

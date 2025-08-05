@@ -18,10 +18,34 @@ const app = express();
 const port = process.env.PORT || 3000;
 const dbUrl = process.env.MONGODB_URI || process.env.DB_URL;
 
-// CORS configuration - specific origin when using credentials
+// CORS configuration - allow multiple origins for development
 const corsOptions = {
-    origin: 'http://localhost:5173', // Your client URL
-    credentials: true, // Allow credentials
+    origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, etc.)
+        if (!origin) return callback(null, true);
+        
+        // Allow localhost and any IP in your local network
+        const allowedOrigins = [
+            'http://localhost:5173',
+            /^http:\/\/192\.168\.\d{1,3}\.\d{1,3}:5173$/, // Local network IPs
+            /^http:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/, // Another common local network range
+            /^http:\/\/172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3}:5173$/ // Private network range
+        ];
+        
+        const isAllowed = allowedOrigins.some(pattern => {
+            if (typeof pattern === 'string') {
+                return pattern === origin;
+            }
+            return pattern.test(origin);
+        });
+        
+        if (isAllowed) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -81,13 +105,14 @@ app.use('*', (req, res) => {
     });
 });
 
-// Start server
+// Start server - bind to all interfaces
 const startServer = async () => {
     try {
         await connectDB();
-        app.listen(port, () => {
+        app.listen(port, '0.0.0.0', () => { // Bind to all interfaces
             console.log(`Server running on port ${port}`);
             console.log(`Health check: http://localhost:${port}/health`);
+            console.log(`Network access: http://0.0.0.0:${port}/health`);
         });
     } catch (error) {
         console.error('Failed to start server:', error);
