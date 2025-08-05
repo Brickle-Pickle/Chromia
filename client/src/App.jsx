@@ -11,6 +11,8 @@ import Error404 from './common/error/error.jsx'
 import Dashboard from './userPages/dashboard/dashboard.jsx'
 import Colors from './userPages/colors/colors.jsx'
 import ColorPalettes from './userPages/color_palettes/color_palettes.jsx'
+// Sub pages
+import PaletteView from './userPages/color_palettes/palette_view/palette_view.jsx'
 
 function App() {
     const location = useLocation();
@@ -29,6 +31,7 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/colors" element={<Colors />} />
                     <Route path="/color-palettes" element={<ColorPalettes />} />
+                    <Route path="/color-palettes/view/:paletteId" element={<PaletteView />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />

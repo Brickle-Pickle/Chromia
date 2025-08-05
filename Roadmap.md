@@ -22,21 +22,21 @@ Este documento describe las fases y tareas planificadas para el desarrollo de la
 *   [X] **Inicialización del Proyecto:**
     *   Configurar un nuevo proyecto con Vite y React.
     *   Organizar la estructura de carpetas (componentes, páginas, servicios, etc.).
-*   [ ] **Diseño Básico y Componentes:**
+*   [X] **Diseño Básico y Componentes:**
     *   Crear un layout principal (Header, Footer, Contenido).
     *   Diseñar un componente `PaletteCard` para mostrar una vista previa de cada paleta.
-*   [ ] **Página Principal:**
+*   [X] **Página Principal:**
     *   Crear la página de inicio que obtenga y muestre todas las paletas de la API.
 
 ---
 
 ### Fase 3: Funcionalidad Principal de Paletas
 
-*   [ ] **Creación de Paletas:**
+*   [X] **Creación de Paletas:**
     *   Crear un formulario para que los usuarios puedan añadir nuevas paletas de colores.
-*   [ ] **Vista de Detalle:**
+*   [X] **Vista de Detalle:**
     *   Desarrollar una página que muestre los detalles completos de una paleta al hacer clic en ella.
-*   [ ] **Integración con The Color API:**
+*   [X] **Integración con The Color API:**
     *   Al hacer clic en un color específico, llamar a `The Color API` para mostrar información adicional (nombre, CMYK, etc.).
 
 ---

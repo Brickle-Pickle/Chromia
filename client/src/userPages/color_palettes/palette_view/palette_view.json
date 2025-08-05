@@ -1,0 +1,92 @@
+{
+    "title": "Vista de Paleta",
+    "subtitle": "Explora los detalles de tu paleta de colores",
+    "description": "Descubre información detallada sobre cada color y experimenta con diferentes interacciones.",
+    "navigation": {
+        "backToPalettes": "Volver a Mis Paletas",
+        "editPalette": "Editar Paleta"
+    },
+    "paletteInfo": {
+        "createdOn": "Creada el",
+        "lastModified": "Última modificación",
+        "totalColors": "colores en total",
+        "author": "Autor"
+    },
+    "colorDetails": {
+        "title": "Detalles del Color",
+        "name": "Nombre",
+        "hexCode": "Código HEX",
+        "rgbCode": "Código RGB",
+        "hslCode": "Código HSL",
+        "cmykCode": "Código CMYK",
+        "colorName": "Nombre del Color",
+        "clickToSelect": "Haz clic en un color para ver sus detalles"
+    },
+    "actions": {
+        "copyHex": "Copiar HEX",
+        "copyRgb": "Copiar RGB",
+        "copyHsl": "Copiar HSL",
+        "copyAllColors": "Copiar Todos los Colores",
+        "downloadPalette": "Descargar Paleta",
+        "sharePalette": "Compartir Paleta",
+        "generateVariations": "Generar Variaciones",
+        "randomizeOrder": "Orden Aleatorio"
+    },
+    "interactiveElements": {
+        "colorMixer": {
+            "title": "Mezclador de Colores",
+            "description": "Combina dos colores de la paleta para crear nuevos tonos",
+            "selectFirst": "Selecciona el primer color",
+            "selectSecond": "Selecciona el segundo color",
+            "mixColors": "Mezclar Colores",
+            "result": "Resultado de la mezcla"
+        },
+        "colorHarmony": {
+            "title": "Armonías de Color",
+            "description": "Explora diferentes armonías basadas en los colores de tu paleta",
+            "complementary": "Complementarios",
+            "triadic": "Triádicos",
+            "analogous": "Análogos",
+            "monochromatic": "Monocromáticos"
+        },
+        "colorWheel": {
+            "title": "Rueda de Colores",
+            "description": "Visualiza la posición de tus colores en la rueda cromática"
+        }
+    },
+    "loading": {
+        "fetchingPalette": "Cargando paleta...",
+        "fetchingColorInfo": "Obteniendo información del color...",
+        "generatingVariations": "Generando variaciones...",
+        "mixingColors": "Mezclando colores..."
+    },
+    "errors": {
+        "paletteNotFound": "Paleta no encontrada",
+        "loadError": "Error al cargar la paleta",
+        "colorInfoError": "Error al obtener información del color",
+        "copyError": "Error al copiar al portapapeles",
+        "retry": "Intentar de nuevo"
+    },
+    "success": {
+        "colorCopied": "Color copiado al portapapeles",
+        "paletteDownloaded": "Paleta descargada exitosamente",
+        "paletteShared": "Enlace de paleta copiado"
+    },
+    "tips": {
+        "title": "Consejos Útiles",
+        "items": [
+            {
+                "title": "Interacción con Colores",
+                "description": "Haz clic en cualquier color para ver información detallada"
+            },
+            {
+                "title": "Mezcla de Colores", 
+                "description": "Selecciona dos colores para crear mezclas únicas"
+            },
+            {
+                "title": "Atajos de Teclado",
+                "description": "Usa las teclas de flecha para navegar entre colores"
+            }
+        ]
+    }
+}
