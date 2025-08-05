@@ -19,6 +19,12 @@ const initialState = {
         hasMore: false,
         totalPages: 0
     },
+    // Add user colors state
+    userColors: [],
+    userColorsLoading: false,
+    // Add total colors count state
+    totalColorsCount: 0,
+    totalColorsCountLoading: false,
     // Add forgot password related state
     forgotPasswordState: {
         emailSent: false,
@@ -44,6 +50,13 @@ const actionTypes = {
     SET_COMMUNITY_COLORS: 'SET_COMMUNITY_COLORS',
     ADD_COMMUNITY_COLORS: 'ADD_COMMUNITY_COLORS',
     SET_COMMUNITY_COLORS_PAGINATION: 'SET_COMMUNITY_COLORS_PAGINATION',
+    // Add user colors action types
+    SET_USER_COLORS_LOADING: 'SET_USER_COLORS_LOADING',
+    SET_USER_COLORS: 'SET_USER_COLORS',
+    ADD_USER_COLOR: 'ADD_USER_COLOR',
+    // Add total colors count action types
+    SET_TOTAL_COLORS_COUNT_LOADING: 'SET_TOTAL_COLORS_COUNT_LOADING',
+    SET_TOTAL_COLORS_COUNT: 'SET_TOTAL_COLORS_COUNT',
     // Add forgot password action types
     SET_FORGOT_PASSWORD_LOADING: 'SET_FORGOT_PASSWORD_LOADING',
     SET_FORGOT_PASSWORD_ERROR: 'SET_FORGOT_PASSWORD_ERROR',
@@ -88,6 +101,7 @@ const appReducer = (state, action) => {
                 isAuthenticated: false,
                 palettes: [],
                 currentPalette: null,
+                userColors: [],
                 error: null,
             };
         case actionTypes.SET_PALETTES:
@@ -145,6 +159,35 @@ const appReducer = (state, action) => {
             return {
                 ...state,
                 communityColorsPagination: action.payload,
+            };
+        // Add user colors reducer cases
+        case actionTypes.SET_USER_COLORS_LOADING:
+            return {
+                ...state,
+                userColorsLoading: action.payload,
+            };
+        case actionTypes.SET_USER_COLORS:
+            return {
+                ...state,
+                userColors: action.payload,
+                userColorsLoading: false,
+            };
+        case actionTypes.ADD_USER_COLOR:
+            return {
+                ...state,
+                userColors: [...state.userColors, action.payload],
+            };
+        // Add total colors count reducer cases
+        case actionTypes.SET_TOTAL_COLORS_COUNT_LOADING:
+            return {
+                ...state,
+                totalColorsCountLoading: action.payload,
+            };
+        case actionTypes.SET_TOTAL_COLORS_COUNT:
+            return {
+                ...state,
+                totalColorsCount: action.payload,
+                totalColorsCountLoading: false,
             };
         // Add forgot password reducer cases
         case actionTypes.SET_FORGOT_PASSWORD_LOADING:
@@ -232,23 +275,38 @@ const createApiCall = () => {
             };
         }
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, defaultOptions);
-        
-        // Handle unauthorized responses
-        if (response.status === 401) {
-            localStorage.removeItem('chromia_token');
-            localStorage.removeItem('chromia_user');
-            window.location.href = '/login';
-            throw new Error('Unauthorized');
-        }
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, defaultOptions);
+            
+            // Handle unauthorized responses more carefully
+            if (response.status === 401) {
+                const errorData = await response.json().catch(() => ({ message: 'Unauthorized' }));
+                
+                // Only clear session if it's actually an authentication error
+                // and not a temporary server issue
+                if (errorData.error === 'Token expired' || errorData.error === 'Invalid token') {
+                    localStorage.removeItem('chromia_token');
+                    localStorage.removeItem('chromia_user');
+                    window.location.href = '/login';
+                }
+                
+                throw new Error(errorData.message || 'Unauthorized');
+            }
 
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.message || 'Something went wrong');
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'Something went wrong');
+            }
+            
+            return data;
+        } catch (error) {
+            // Don't redirect to login for network errors or other non-auth issues
+            if (error.message !== 'Unauthorized') {
+                console.error('API call error:', error);
+            }
+            throw error;
         }
-        
-        return data;
     };
 };
 
@@ -475,13 +533,14 @@ export const AppProvider = ({ children }) => {
     const createPalette = useCallback(async (paletteData) => {
         try {
             dispatch({ type: actionTypes.SET_LOADING, payload: true });
-            const newPalette = await apiCall('/palettes', {
+            const newPalette = await apiCall('/palettes/create', {
                 method: 'POST',
                 body: JSON.stringify(paletteData),
             });
             dispatch({ type: actionTypes.ADD_PALETTE, payload: newPalette });
             return { success: true, data: newPalette };
         } catch (error) {
+            console.error('Error creating palette:', error);
             dispatch({ type: actionTypes.SET_ERROR, payload: error.message });
             return { success: false, error: error.message };
         } finally {
@@ -536,6 +595,59 @@ export const AppProvider = ({ children }) => {
         }
     }, [apiCall]);
 
+    // Color management functions - memoized
+    const fetchUserColors = useCallback(async () => {
+        try {
+            dispatch({ type: actionTypes.SET_USER_COLORS_LOADING, payload: true });
+            const colors = await apiCall('/colors');
+            dispatch({ type: actionTypes.SET_USER_COLORS, payload: colors });
+            return { success: true, data: colors };
+        } catch (error) {
+            dispatch({ type: actionTypes.SET_ERROR, payload: error.message });
+            return { success: false, error: error.message };
+        } finally {
+            dispatch({ type: actionTypes.SET_USER_COLORS_LOADING, payload: false });
+        }
+    }, [apiCall]);
+
+    const createColor = useCallback(async (colorData) => {
+        try {
+            const newColor = await apiCall('/colors/create', {
+                method: 'POST',
+                body: JSON.stringify(colorData),
+            });
+            dispatch({ type: actionTypes.ADD_USER_COLOR, payload: newColor });
+            return { success: true, data: newColor };
+        } catch (error) {
+            console.error('Error creating color:', error);
+            return { success: false, error: error.message };
+        }
+    }, [apiCall]);
+
+    const searchCommunityColors = useCallback(async (searchTerm) => {
+        try {
+            // Use fetch directly for public endpoint (no authentication needed)
+            const response = await fetch(`${API_BASE_URL}/colors/community?search=${encodeURIComponent(searchTerm)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to search colors');
+            }
+            
+            const data = await response.json();
+            return { success: true, data: data.colors };
+        } catch (error) {
+            console.error('Error searching community colors:', error);
+            return { success: false, error: error.message };
+        }
+    }, []);
+
     // Community colors management functions - memoized
     const fetchCommunityColors = useCallback(async (page = 1, limit = 12, reset = false) => {
         try {
@@ -572,6 +684,37 @@ export const AppProvider = ({ children }) => {
             return { success: false, error: error.message };
         } finally {
             dispatch({ type: actionTypes.SET_COMMUNITY_COLORS_LOADING, payload: false });
+        }
+    }, []);
+
+    // Get total colors count function - memoized
+    const fetchTotalColorsCount = useCallback(async () => {
+        try {
+            dispatch({ type: actionTypes.SET_TOTAL_COLORS_COUNT_LOADING, payload: true });
+            
+            // Use fetch directly for public endpoint (no authentication needed)
+            const response = await fetch(`${API_BASE_URL}/colors/count`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch colors count');
+            }
+            
+            const data = await response.json();
+            dispatch({ type: actionTypes.SET_TOTAL_COLORS_COUNT, payload: data.count });
+            
+            return { success: true, data: data.count };
+        } catch (error) {
+            console.error('Error fetching total colors count:', error);
+            return { success: false, error: error.message };
+        } finally {
+            dispatch({ type: actionTypes.SET_TOTAL_COLORS_COUNT_LOADING, payload: false });
         }
     }, []);
 
@@ -626,8 +769,14 @@ export const AppProvider = ({ children }) => {
         getPaletteById,
         setCurrentPalette,
         
+        // Color management functions
+        fetchUserColors,
+        createColor,
+        searchCommunityColors,
+        
         // Community colors functions
         fetchCommunityColors,
+        fetchTotalColorsCount,
         
         // Color API function
         getColorInfo,
@@ -653,7 +802,11 @@ export const AppProvider = ({ children }) => {
         deletePalette,
         getPaletteById,
         setCurrentPalette,
+        fetchUserColors,
+        createColor,
+        searchCommunityColors,
         fetchCommunityColors,
+        fetchTotalColorsCount,
         getColorInfo,
         clearError,
         copyToClipboard,

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { useAppContext } from './context/app_context.jsx'
 // Common
 import Navbar from "./common/navbar/navbar.jsx"
 import Footer from './common/footer/footer.jsx'
@@ -10,6 +9,7 @@ import ForgotPassword from './common/forgot_password/forgot_password.jsx'
 // Pages
 import Dashboard from './userPages/dashboard/dashboard.jsx'
 import Colors from './userPages/colors/colors.jsx'
+import ColorPalettes from './userPages/color_palettes/color_palettes.jsx'
 
 function App() {
     const location = useLocation();
@@ -27,7 +27,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/colors" element={<Colors />} />
-                    {/* <Route path="/color-palletes" element={<PalettesPage />} /> */}
+                    <Route path="/color-palettes" element={<ColorPalettes />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />

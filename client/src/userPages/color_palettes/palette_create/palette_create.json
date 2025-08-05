@@ -1,0 +1,80 @@
+{
+    "title": "Crear Nueva Paleta",
+    "subtitle": "Diseña tu propia combinación de colores única",
+    "description": "Crea una paleta personalizada seleccionando colores existentes de la comunidad o creando tus propios colores únicos.",
+    "form": {
+        "paletteName": {
+            "label": "Nombre de la Paleta",
+            "placeholder": "Ej: Atardecer Tropical, Minimalismo Moderno..."
+        },
+        "colorSearch": {
+            "label": "Buscar Colores Existentes",
+            "placeholder": "Buscar por nombre de color...",
+            "noResults": "No se encontraron colores con ese nombre"
+        },
+        "createColor": {
+            "label": "Crear Nuevo Color",
+            "nameLabel": "Nombre del Color",
+            "namePlaceholder": "Ej: Azul Océano, Verde Bosque...",
+            "colorLabel": "Código de Color",
+            "colorPlaceholder": "#000000"
+        },
+        "paletteColors": {
+            "label": "Colores de tu Paleta",
+            "minColors": "Mínimo 3 colores",
+            "maxColors": "Máximo 7 colores",
+            "currentCount": "colores seleccionados"
+        }
+    },
+    "buttons": {
+        "addColor": "Agregar Color",
+        "createColor": "Crear Color",
+        "removeColor": "Eliminar",
+        "createPalette": "Crear Paleta",
+        "cancel": "Cancelar",
+        "searchColors": "Buscar",
+        "clearSearch": "Limpiar",
+        "randomColor": "Color Aleatorio",
+        "copyHex": "Copiar HEX"
+    },
+    "messages": {
+        "success": {
+            "paletteCreated": "¡Paleta creada exitosamente!",
+            "colorCreated": "¡Color creado y agregado!",
+            "colorCopied": "¡Código copiado!"
+        },
+        "errors": {
+            "invalidName": "El nombre es requerido",
+            "invalidHex": "Código de color inválido",
+            "minColors": "Se requieren al menos 3 colores",
+            "maxColors": "Máximo 7 colores permitidos",
+            "duplicateColor": "Este color ya está en la paleta",
+            "createFailed": "Error al crear la paleta"
+        },
+        "validation": {
+            "nameRequired": "El nombre de la paleta es requerido",
+            "nameMinLength": "El nombre debe tener al menos 3 caracteres",
+            "nameMaxLength": "El nombre no puede exceder 50 caracteres",
+            "colorNameRequired": "El nombre del color es requerido",
+            "colorNameMinLength": "El nombre del color debe tener al menos 2 caracteres",
+            "colorNameMaxLength": "El nombre del color no puede exceder 30 caracteres"
+        }
+    },
+    "tips": {
+        "colorTheory": "Consejo: Usa colores complementarios para crear contraste",
+        "harmony": "Tip: Los colores análogos crean armonía visual",
+        "accessibility": "Recuerda: Considera el contraste para accesibilidad",
+        "inspiration": "Inspiración: Observa la naturaleza para combinaciones únicas"
+    },
+    "sections": {
+        "searchSection": "Buscar Colores",
+        "createSection": "Crear Color",
+        "paletteSection": "Tu Paleta",
+        "previewSection": "Vista Previa"
+    },
+    "loading": {
+        "searching": "Buscando colores...",
+        "creating": "Creando paleta...",
+        "addingColor": "Agregando color..."
+    }
+}

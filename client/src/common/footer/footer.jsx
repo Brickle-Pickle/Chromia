@@ -7,7 +7,7 @@ import footerData from './footer.json';
 import './footer.css';
 
 const Footer = () => {
-    const { palettes } = useAppContext();
+    const { palettes, totalColorsCount, fetchTotalColorsCount } = useAppContext();
     const [isVisible, setIsVisible] = useState(false);
 
     // Colors for each day of the week
@@ -52,6 +52,11 @@ const Footer = () => {
 
     // Array of colors for animated background and particles
     const animatedColors = Object.values(weeklyColors);
+
+    // Fetch total colors count on component mount
+    useEffect(() => {
+        fetchTotalColorsCount();
+    }, [fetchTotalColorsCount]);
 
     // Intersection Observer for scroll animations
     useEffect(() => {
@@ -153,12 +158,12 @@ const Footer = () => {
                         <div className="footer__stats">
                             <div className="footer__stat">
                                 <FaPalette className="footer__stat-icon" />
-                                <span className="footer__stat-number">{palettes.length}</span>
+                                <span className="footer__stat-number">{palettes?.length || 0}</span>
                                 <span className="footer__stat-label">Paletas</span>
                             </div>
                             <div className="footer__stat">
                                 <HiColorSwatch className="footer__stat-icon" />
-                                <span className="footer__stat-number">{palettes.length * 5}</span>
+                                <span className="footer__stat-number">{totalColorsCount || 0}</span>
                                 <span className="footer__stat-label">Colores</span>
                             </div>
                         </div>

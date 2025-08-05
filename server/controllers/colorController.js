@@ -47,14 +47,26 @@ const getAllCommunityColors = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 12;
         const skip = (page - 1) * limit;
+        const search = req.query.search;
         
-        const colors = await Color.find()
+        // Build search query
+        let query = {};
+        if (search) {
+            query = {
+                $or: [
+                    { name: { $regex: search, $options: 'i' } },
+                    { color: { $regex: search, $options: 'i' } }
+                ]
+            };
+        }
+        
+        const colors = await Color.find(query)
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
-            .populate('author', 'userName'); // Changed from 'username' to 'userName'
+            .populate('author', 'userName');
             
-        const total = await Color.countDocuments();
+        const total = await Color.countDocuments(query);
         const hasMore = skip + colors.length < total;
         
         res.status(200).json({
@@ -73,10 +85,21 @@ const getAllCommunityColors = async (req, res) => {
     }
 };
 
+const colorCount = async (req, res) => {
+    try {
+        const count = await Color.countDocuments();
+        res.status(200).json({ count });
+    } catch (error) {
+        console.error('Error counting colors:', error);
+        res.status(400).json({ message: error.message });
+    }
+};
+
 const router = express.Router();
 
 // Public routes (no authentication required)
 router.get('/community', getAllCommunityColors);
+router.get('/count', colorCount);
 
 // Protected routes (authentication required)
 router.post('/create', authenticateToken, createColor);
