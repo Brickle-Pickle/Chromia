@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
     userName: {
@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     },
 });
 
-// Middleware para el hashing de la contraseña
+// Hash password middleware
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
@@ -22,7 +22,7 @@ UserSchema.pre('save', async function (next) {
     next();
 });
 
-// Middleware para la verificación de la contraseña
+// Password verification middleware
 UserSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
