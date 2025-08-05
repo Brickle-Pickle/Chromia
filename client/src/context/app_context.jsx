@@ -248,7 +248,7 @@ const getApiBaseUrl = () => {
 
     // Production environment (Vercel)
     if (currentHost.includes('vercel.app')) {
-        return 'chromia-production.up.railway.app'; // Actualizar con URL real
+        return 'https://chromia-production.up.railway.app/api'; // Fixed: added https:// and /api
     }
     
     // If accessing via localhost, use localhost for API
