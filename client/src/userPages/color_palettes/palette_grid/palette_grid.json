@@ -1,0 +1,59 @@
+{
+    "title": "Mis Paletas de Colores",
+    "subtitle": "Gestiona y explora tus creaciones cromáticas",
+    "description": "Aquí encontrarás todas las paletas de colores que has creado. Puedes editarlas, eliminarlas o crear nuevas combinaciones únicas.",
+    "emptyState": {
+        "title": "¡Aún no tienes paletas!",
+        "description": "Comienza creando tu primera paleta de colores personalizada",
+        "buttonText": "Crear Mi Primera Paleta"
+    },
+    "actions": {
+        "delete": "Eliminar",
+        "share": "Compartir",
+        "viewDetails": "Ver Detalles"
+    },
+    "confirmations": {
+        "delete": {
+            "title": "¿Eliminar paleta?",
+            "message": "Esta acción no se puede deshacer. ¿Estás seguro de que quieres eliminar esta paleta?",
+            "confirm": "Sí, eliminar",
+            "cancel": "Cancelar"
+        },
+        "duplicate": {
+            "success": "Paleta duplicada exitosamente",
+            "error": "Error al duplicar la paleta"
+        }
+    },
+    "filters": {
+        "all": "Todas",
+        "recent": "Recientes",
+        "favorites": "Favoritas",
+        "sortBy": "Ordenar por",
+        "sortOptions": {
+            "newest": "Más recientes",
+            "oldest": "Más antiguas",
+            "name": "Nombre A-Z",
+            "nameDesc": "Nombre Z-A"
+        }
+    },
+    "stats": {
+        "totalPalettes": "paletas creadas",
+        "totalColors": "colores únicos",
+        "lastCreated": "Última creación"
+    },
+    "loading": {
+        "fetching": "Cargando tus paletas...",
+        "deleting": "Eliminando paleta...",
+        "duplicating": "Duplicando paleta..."
+    },
+    "errors": {
+        "fetchError": "Error al cargar las paletas",
+        "deleteError": "Error al eliminar la paleta",
+        "duplicateError": "Error al duplicar la paleta",
+        "retry": "Intentar de nuevo"
+    },
+    "search": {
+        "placeholder": "Buscar en tus paletas...",
+        "noResults": "No se encontraron paletas que coincidan con tu búsqueda"
+    }
+}

@@ -53,14 +53,16 @@ const getColorPalletes = async (req, res) => {
 
 const getColorPallete = async (req, res) => {
     try {
-        const colorPallete = await ColorPallete.findById(req.params.id);
+        // Use findById without populate to get raw ObjectId for authorization check
+        const colorPallete = await ColorPallete.findById(req.params.id).populate('author', 'userName');
         
         if (!colorPallete) {
             return res.status(404).json({ message: 'Color palette not found' });
         }
         
-        // Check if user owns this palette
-        if (colorPallete.author.toString() !== req.user._id.toString()) {
+        // Check if user owns this palette - handle both ObjectId and populated object
+        const authorId = colorPallete.author._id || colorPallete.author;
+        if (authorId.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Access denied' });
         }
         
@@ -73,17 +75,19 @@ const getColorPallete = async (req, res) => {
 
 const deleteColorPallete = async (req, res) => {
     try {
-        const colorPallete = await ColorPallete.findById(req.params.id);
+        // First check authorization without populate to avoid issues
+        const paletteForAuth = await ColorPallete.findById(req.params.id).select('author');
         
-        if (!colorPallete) {
+        if (!paletteForAuth) {
             return res.status(404).json({ message: 'Color palette not found' });
         }
         
-        // Check if user owns this palette
-        if (colorPallete.author.toString() !== req.user._id.toString()) {
+        // Check if user owns this palette - author is guaranteed to be ObjectId here
+        if (paletteForAuth.author.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Access denied' });
         }
         
+        // If authorized, proceed with deletion
         await ColorPallete.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Color palette deleted successfully' });
     } catch (error) {
@@ -112,17 +116,19 @@ const updateColorPallete = async (req, res) => {
             return res.status(400).json({ message: 'Invalid hex color format' });
         }
         
-        const colorPallete = await ColorPallete.findById(req.params.id);
+        // First check authorization without populate
+        const paletteForAuth = await ColorPallete.findById(req.params.id).select('author');
         
-        if (!colorPallete) {
+        if (!paletteForAuth) {
             return res.status(404).json({ message: 'Color palette not found' });
         }
         
-        // Check if user owns this palette
-        if (colorPallete.author.toString() !== req.user._id.toString()) {
+        // Check if user owns this palette - author is guaranteed to be ObjectId here
+        if (paletteForAuth.author.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Access denied' });
         }
         
+        // If authorized, proceed with update
         const updatedPalette = await ColorPallete.findByIdAndUpdate(
             req.params.id, 
             {

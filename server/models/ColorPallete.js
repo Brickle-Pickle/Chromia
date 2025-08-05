@@ -57,8 +57,9 @@ ColorPalleteSchema.pre('save', function(next) {
     next();
 });
 
-// Populate author field when finding
-ColorPalleteSchema.pre(['find', 'findOne'], function() {
+// Only populate author field when finding multiple documents (for display purposes)
+// Remove automatic populate to avoid issues with authorization checks
+ColorPalleteSchema.pre(['find'], function() {
     this.populate('author', 'userName');
 });
 

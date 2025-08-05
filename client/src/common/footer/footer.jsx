@@ -159,12 +159,12 @@ const Footer = () => {
                             <div className="footer__stat">
                                 <FaPalette className="footer__stat-icon" />
                                 <span className="footer__stat-number">{palettes?.length || 0}</span>
-                                <span className="footer__stat-label">Paletas</span>
+                                <span className="footer__stat-label">Paletas Propias</span>
                             </div>
                             <div className="footer__stat">
                                 <HiColorSwatch className="footer__stat-icon" />
                                 <span className="footer__stat-number">{totalColorsCount || 0}</span>
-                                <span className="footer__stat-label">Colores</span>
+                                <span className="footer__stat-label">Colores Totales</span>
                             </div>
                         </div>
                     </div>
