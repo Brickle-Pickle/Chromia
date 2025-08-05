@@ -433,7 +433,7 @@ const PaletteView = () => {
 
                         {/* Action Buttons */}
                         <div className="action-buttons">
-                            <button 
+                            {/* <button 
                                 className="action-btn"
                                 onClick={() => handleCopy(
                                     currentPalette.colors.map(c => c.color).join(', '),
@@ -442,7 +442,7 @@ const PaletteView = () => {
                             >
                                 <FiCopy />
                                 {paletteViewTexts.actions.copyAllColors}
-                            </button>
+                            </button> */}
                             <button 
                                 className="action-btn"
                                 onClick={handleDownloadPalette}
@@ -450,7 +450,7 @@ const PaletteView = () => {
                                 <FiDownload />
                                 {paletteViewTexts.actions.downloadPalette}
                             </button>
-                            <button 
+                            {/* <button 
                                 className="action-btn"
                                 onClick={() => handleCopy(
                                     `${window.location.origin}/color-palettes/view/${currentPalette._id}`,
@@ -459,7 +459,7 @@ const PaletteView = () => {
                             >
                                 <FiShare2 />
                                 {paletteViewTexts.actions.sharePalette}
-                            </button>
+                            </button> */}
                             <button 
                                 className="action-btn"
                                 onClick={handleRandomizeOrder}
@@ -603,7 +603,7 @@ const PaletteView = () => {
                                             ))}
                                         </div>
 
-                                        <div className="harmony-colors">
+                                        {/* <div className="harmony-colors">
                                             {harmonyColors.map((color, index) => (
                                                 <div
                                                     key={index}
@@ -613,7 +613,7 @@ const PaletteView = () => {
                                                     title={`Copiar color: ${color}`}
                                                 />
                                             ))}
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     {/* Color Mixer */}

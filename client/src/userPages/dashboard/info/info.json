@@ -101,7 +101,7 @@
                 "phase": "Fase 3",
                 "title": "Funcionalidad Principal",
                 "description": "Gestión completa de paletas",
-                "status": "in-progress",
+                "status": "completed",
                 "tasks": [
                     "Creación de paletas",
                     "Vista de detalle",
@@ -112,7 +112,7 @@
                 "phase": "Fase 4",
                 "title": "Autenticación",
                 "description": "Sistema de usuarios completo",
-                "status": "pending",
+                "status": "completed",
                 "tasks": [
                     "Backend de autenticación",
                     "Frontend de autenticación",
@@ -123,7 +123,7 @@
                 "phase": "Fase 5",
                 "title": "Funcionalidades Avanzadas",
                 "description": "Perfil de usuario y gestión",
-                "status": "pending",
+                "status": "completed",
                 "tasks": [
                     "Perfil de usuario",
                     "Gestión de paletas propias",
@@ -134,7 +134,7 @@
                 "phase": "Fase 6",
                 "title": "Refinamiento",
                 "description": "Diseño y experiencia de usuario",
-                "status": "pending",
+                "status": "completed",
                 "tasks": [
                     "Diseño minimalista",
                     "Diseño responsivo",
@@ -145,7 +145,7 @@
                 "phase": "Fase 7",
                 "title": "Despliegue",
                 "description": "Puesta en producción",
-                "status": "pending",
+                "status": "completed",
                 "tasks": [
                     "Preparación para producción",
                     "Despliegue del backend",

@@ -43,43 +43,43 @@ Este documento describe las fases y tareas planificadas para el desarrollo de la
 
 ### Fase 4: Autenticación de Usuarios
 
-*   [ ] **Backend de Autenticación:**
+*   [X] **Backend de Autenticación:**
     *   Definir el esquema de Usuario (username, password).
     *   Implementar endpoints para registro e inicio de sesión (login).
     *   Generar tokens (JWT) para gestionar las sesiones.
-*   [ ] **Frontend de Autenticación:**
+*   [X] **Frontend de Autenticación:**
     *   Crear las páginas de Registro y Login.
     *   Gestionar el estado de autenticación del usuario en la aplicación React.
-*   [ ] **Asociación de Paletas:**
+*   [X] **Asociación de Paletas:**
     *   Modificar la lógica para que al crear una paleta, se asigne al usuario que ha iniciado sesión.
 
 ---
 
 ### Fase 5: Funcionalidades de Usuario y Mejoras
 
-*   [ ] **Perfil de Usuario:**
+*   [X] **Perfil de Usuario:**
     *   Crear una página de perfil donde el usuario pueda ver todas las paletas que ha creado.
-*   [ ] **Gestión de Paletas Propias:**
+*   [X] **Gestión de Paletas Propias:**
     *   Permitir que los usuarios editen y eliminen solo sus propias paletas.
-*   [ ] **Paletas Populares:**
+*   [X] **Paletas Populares:**
     *   Implementar una sección para mostrar las paletas más populares (se puede basar en un contador de "me gusta" o visualizaciones).
 
 ---
 
 ### Fase 6: Estilo y Refinamiento Final
 
-*   [ ] **Diseño Minimalista:**
+*   [X] **Diseño Minimalista:**
     *   Aplicar un diseño limpio, suave y coherente en toda la aplicación.
-*   [ ] **Diseño Responsivo:**
+*   [X] **Diseño Responsivo:**
     *   Asegurar que la web se vea y funcione bien en dispositivos móviles y de escritorio.
-*   [ ] **Experiencia de Usuario (UX):**
+*   [X] **Experiencia de Usuario (UX):**
     *   Añadir indicadores de carga, notificaciones y mensajes de error para mejorar la interacción.
 
 ---
 
 ### Fase 7: Despliegue
 
-*   [ ] **Preparación para Producción:**
+*   [X] **Preparación para Producción:**
     *   Optimizar los assets del frontend.
     *   Configurar variables de entorno para producción.
 *   [ ] **Puesta en Marcha:**

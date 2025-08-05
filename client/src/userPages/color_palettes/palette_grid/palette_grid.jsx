@@ -260,14 +260,14 @@ const PaletteGrid = () => {
                                             {/* Actions */}
                                             <div className="palette-actions">
                                                 
-                                                <button
+                                                {/* <button
                                                     className="action-btn"
                                                     onClick={() => handleCopyColors(palette.colors)}
                                                     title={paletteGridTexts.actions.copyColors}
                                                 >
                                                     <FiShare2 />
                                                     {paletteGridTexts.actions.copyColors}
-                                                </button>
+                                                </button> */}
                                                 
                                                 <button
                                                     className="action-btn"
