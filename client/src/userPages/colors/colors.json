@@ -1,0 +1,32 @@
+{
+    "title": "Colores de la Comunidad",
+    "subtitle": "Descubre increíbles colores creados por nuestra comunidad",
+    "description": "Explora una vibrante colección de colores compartidos por diseñadores y artistas de todo el mundo. Cada color cuenta una historia y aporta inspiración a tu próximo proyecto.",
+    "loadMoreButton": "Mostrar Más Colores",
+    "startUsingButton": "¡Comenzar a Usar Colores!",
+    "colorCard": {
+        "createdBy": "Creado por",
+        "copyHex": "Haz clic para copiar código hex",
+        "copied": "¡Copiado!",
+        "viewDetails": "Ver Detalles"
+    },
+    "loading": "Cargando colores increíbles...",
+    "noColors": "No se encontraron colores",
+    "error": "Error al cargar colores",
+    "stats": {
+        "totalColors": "Total de Colores",
+        "activeCreators": "Creadores Activos",
+        "thisWeek": "Esta Semana"
+    },
+    "filters": {
+        "all": "Todos los Colores",
+        "recent": "Recientes",
+        "popular": "Populares"
+    },
+    "interactiveElements": {
+        "colorWheel": "Rueda de Colores",
+        "randomColor": "Color Aleatorio",
+        "colorMixer": "Mezclador de Colores",
+        "colorHarmony": "Encontrar Armonía"
+    }
+}

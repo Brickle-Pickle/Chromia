@@ -9,6 +9,7 @@ import Register from './common/register/register.jsx'
 import ForgotPassword from './common/forgot_password/forgot_password.jsx'
 // Pages
 import Dashboard from './userPages/dashboard/dashboard.jsx'
+import Colors from './userPages/colors/colors.jsx'
 
 function App() {
     const location = useLocation();
@@ -25,8 +26,8 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    {/* <Route path="/colors" element={<ColorsPage />} />
-                    <Route path="/color-palletes" element={<PalettesPage />} /> */}
+                    <Route path="/colors" element={<Colors />} />
+                    {/* <Route path="/color-palletes" element={<PalettesPage />} /> */}
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />

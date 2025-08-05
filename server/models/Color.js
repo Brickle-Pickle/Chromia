@@ -31,7 +31,7 @@ const ColorSchema = new mongoose.Schema({
 
 // Populate author field when finding
 ColorSchema.pre(['find', 'findOne'], function() {
-    this.populate('author', 'username');
+    this.populate('author', 'userName');
 });
 
 export default mongoose.model('Color', ColorSchema);

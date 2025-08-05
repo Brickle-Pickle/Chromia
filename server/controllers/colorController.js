@@ -1,5 +1,6 @@
 import Color from "../models/Color.js";
 import express from "express";
+import { authenticateToken } from "../middlewares/authMiddleware.js";
 
 const createColor = async (req, res) => {
     try {
@@ -40,9 +41,45 @@ const getColors = async (req, res) => {
     }
 };
 
+// Get all community colors (public endpoint)
+const getAllCommunityColors = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 12;
+        const skip = (page - 1) * limit;
+        
+        const colors = await Color.find()
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .populate('author', 'userName'); // Changed from 'username' to 'userName'
+            
+        const total = await Color.countDocuments();
+        const hasMore = skip + colors.length < total;
+        
+        res.status(200).json({
+            colors,
+            pagination: {
+                page,
+                limit,
+                total,
+                hasMore,
+                totalPages: Math.ceil(total / limit)
+            }
+        });
+    } catch (error) {
+        console.error('Error getting community colors:', error);
+        res.status(400).json({ message: error.message });
+    }
+};
+
 const router = express.Router();
 
-router.post('/create', createColor);
-router.get('/', getColors);
+// Public routes (no authentication required)
+router.get('/community', getAllCommunityColors);
+
+// Protected routes (authentication required)
+router.post('/create', authenticateToken, createColor);
+router.get('/', authenticateToken, getColors);
 
 export default router;

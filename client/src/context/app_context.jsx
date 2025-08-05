@@ -9,6 +9,16 @@ const initialState = {
     error: null,
     palettes: [],
     currentPalette: null,
+    // Add community colors state
+    communityColors: [],
+    communityColorsLoading: false,
+    communityColorsPagination: {
+        page: 1,
+        limit: 12,
+        total: 0,
+        hasMore: false,
+        totalPages: 0
+    },
     // Add forgot password related state
     forgotPasswordState: {
         emailSent: false,
@@ -29,6 +39,11 @@ const actionTypes = {
     UPDATE_PALETTE: 'UPDATE_PALETTE',
     DELETE_PALETTE: 'DELETE_PALETTE',
     SET_CURRENT_PALETTE: 'SET_CURRENT_PALETTE',
+    // Add community colors action types
+    SET_COMMUNITY_COLORS_LOADING: 'SET_COMMUNITY_COLORS_LOADING',
+    SET_COMMUNITY_COLORS: 'SET_COMMUNITY_COLORS',
+    ADD_COMMUNITY_COLORS: 'ADD_COMMUNITY_COLORS',
+    SET_COMMUNITY_COLORS_PAGINATION: 'SET_COMMUNITY_COLORS_PAGINATION',
     // Add forgot password action types
     SET_FORGOT_PASSWORD_LOADING: 'SET_FORGOT_PASSWORD_LOADING',
     SET_FORGOT_PASSWORD_ERROR: 'SET_FORGOT_PASSWORD_ERROR',
@@ -107,6 +122,29 @@ const appReducer = (state, action) => {
             return {
                 ...state,
                 currentPalette: action.payload,
+            };
+        // Add community colors reducer cases
+        case actionTypes.SET_COMMUNITY_COLORS_LOADING:
+            return {
+                ...state,
+                communityColorsLoading: action.payload,
+            };
+        case actionTypes.SET_COMMUNITY_COLORS:
+            return {
+                ...state,
+                communityColors: action.payload,
+                communityColorsLoading: false,
+            };
+        case actionTypes.ADD_COMMUNITY_COLORS:
+            return {
+                ...state,
+                communityColors: [...state.communityColors, ...action.payload],
+                communityColorsLoading: false,
+            };
+        case actionTypes.SET_COMMUNITY_COLORS_PAGINATION:
+            return {
+                ...state,
+                communityColorsPagination: action.payload,
             };
         // Add forgot password reducer cases
         case actionTypes.SET_FORGOT_PASSWORD_LOADING:
@@ -498,6 +536,45 @@ export const AppProvider = ({ children }) => {
         }
     }, [apiCall]);
 
+    // Community colors management functions - memoized
+    const fetchCommunityColors = useCallback(async (page = 1, limit = 12, reset = false) => {
+        try {
+            dispatch({ type: actionTypes.SET_COMMUNITY_COLORS_LOADING, payload: true });
+            
+            // Use fetch directly for public endpoint (no authentication needed)
+            const response = await fetch(`${API_BASE_URL}/colors/community?page=${page}&limit=${limit}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include', // Include credentials but don't require auth
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch community colors');
+            }
+            
+            const data = await response.json();
+            
+            if (reset || page === 1) {
+                dispatch({ type: actionTypes.SET_COMMUNITY_COLORS, payload: data.colors });
+            } else {
+                dispatch({ type: actionTypes.ADD_COMMUNITY_COLORS, payload: data.colors });
+            }
+            
+            dispatch({ type: actionTypes.SET_COMMUNITY_COLORS_PAGINATION, payload: data.pagination });
+            
+            return { success: true, data };
+        } catch (error) {
+            console.error('Error fetching community colors:', error);
+            dispatch({ type: actionTypes.SET_ERROR, payload: error.message });
+            return { success: false, error: error.message };
+        } finally {
+            dispatch({ type: actionTypes.SET_COMMUNITY_COLORS_LOADING, payload: false });
+        }
+    }, []);
+
     // Color API integration function - memoized
     const getColorInfo = useCallback(async (hexColor) => {
         try {
@@ -549,6 +626,9 @@ export const AppProvider = ({ children }) => {
         getPaletteById,
         setCurrentPalette,
         
+        // Community colors functions
+        fetchCommunityColors,
+        
         // Color API function
         getColorInfo,
         
@@ -573,6 +653,7 @@ export const AppProvider = ({ children }) => {
         deletePalette,
         getPaletteById,
         setCurrentPalette,
+        fetchCommunityColors,
         getColorInfo,
         clearError,
         copyToClipboard,

@@ -61,7 +61,7 @@ app.get('/health', (req, res) => {
 
 // API Routes - Register the controllers
 app.use('/api/users', userController);
-app.use('/api/colors', authenticateToken, colorController);
+app.use('/api/colors', colorController); // This includes the public /community route
 app.use('/api/palettes', authenticateToken, colorPalleteController);
 
 // Error handling middleware

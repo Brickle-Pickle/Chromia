@@ -59,7 +59,7 @@ ColorPalleteSchema.pre('save', function(next) {
 
 // Populate author field when finding
 ColorPalleteSchema.pre(['find', 'findOne'], function() {
-    this.populate('author', 'username');
+    this.populate('author', 'userName');
 });
 
 export default mongoose.model('ColorPallete', ColorPalleteSchema);
