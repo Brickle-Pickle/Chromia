@@ -18,18 +18,18 @@ const app = express();
 const port = process.env.PORT || 3000;
 const dbUrl = process.env.MONGODB_URI || process.env.DB_URL;
 
-// CORS configuration - allow multiple origins for development
+// CORS configuration - updated for production
 const corsOptions = {
     origin: function (origin, callback) {
         // Allow requests with no origin (mobile apps, etc.)
         if (!origin) return callback(null, true);
         
-        // Allow localhost and any IP in your local network
         const allowedOrigins = [
-            'http://localhost:5173',
+            'http://localhost:5173', // Development
+            'https://your-app-name.vercel.app', // Production - update this with your actual Vercel URL
             /^http:\/\/192\.168\.\d{1,3}\.\d{1,3}:5173$/, // Local network IPs
-            /^http:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/, // Another common local network range
-            /^http:\/\/172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3}:5173$/ // Private network range
+            /^http:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$/, 
+            /^http:\/\/172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3}:5173$/
         ];
         
         const isAllowed = allowedOrigins.some(pattern => {
