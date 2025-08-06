@@ -164,7 +164,7 @@ const Register = () => {
                 
                 // Redirect after a short delay to show success message
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    navigate('/');
                 }, 1500);
             }
         } catch (err) {

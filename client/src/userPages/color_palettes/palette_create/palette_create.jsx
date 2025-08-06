@@ -242,7 +242,15 @@ const PaletteCreate = () => {
                 // Show success message
                 setValidationErrors({ success: texts.messages.success.paletteCreated });
                 setTimeout(() => {
-                    window.location.reload();
+                    // Reset form state instead of reloading
+                    setPaletteName('');
+                    setPaletteColors([]);
+                    setValidationErrors({});
+                    setSearchTerm('');
+                    setSearchResults([]);
+                    setNewColorName('');
+                    setNewColorHex('#000000');
+                    setActiveTab('search');
                 }, 1500);
             } else {
                 setValidationErrors({ createPalette: result.error });
